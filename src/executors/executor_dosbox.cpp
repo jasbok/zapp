@@ -24,36 +24,26 @@ void executor_dosbox::working_dir(const QString &working_dir)
 
 bool executor_dosbox::run() const
 {
-    qDebug() << "Using working directory: " << _working_dir;
     return _dosbox.run();
 }
 
 void executor_dosbox::_configure_for_executable(const QString& target, const QFileInfo& file_info)
 {
-    _dosbox = _dosbox.executable(target);
+    QFileInfo target_info(target);
+    _working_dir = target_info.absolutePath();
+
+    QString target_dir = QFileInfo(_working_dir).fileName();
+    target_dir = target_dir.size() <= 8 ? target_dir :
+                                          target_dir.remove(' ').left(6) + "~1";
+    _dosbox = _dosbox.working_dir(_working_dir)
+                     .command("mount c ..")
+                     .command("c:")
+                     .command(QString("cd %1").arg(target_dir))
+                     .command(target_info.fileName());
 }
 
 void executor_dosbox::_configure_for_config(const QString& target)
 {
     dosbox_config_analyser dca(target);
-
-//    if(dca.mount_cmd() != nullptr) {
-//        _dosbox = _dosbox.mount(dca.mount_cmd()->drive(), dca.mount_cmd()->path());
-//    }
-//    if(dca.imgmount_cmd() != nullptr) {
-//        if(dca.imgmount_cmd()->t().isEmpty() || dca.imgmount_cmd()->fs().isEmpty()) {
-//            _dosbox = _dosbox.imgmount(dca.imgmount_cmd()->drive(), dca.imgmount_cmd()->path());
-//        } else {
-//            _dosbox = _dosbox.imgmount(dca.imgmount_cmd()->drive(),
-//                                       dca.imgmount_cmd()->path(),
-//                                       dca.imgmount_cmd()->t(),
-//                                       dca.imgmount_cmd()->fs());
-//        }
-//    }
-//    for(QString cmd : dca.dos_cmds()) {
-//        _dosbox = _dosbox.command(cmd);
-//    }
-    for(QString cmd : dca.all_cmds()) {
-        _dosbox = _dosbox.command(cmd);
-    }
+    _dosbox = _dosbox.arg("-userconf").arg("-conf").arg(target);
 }

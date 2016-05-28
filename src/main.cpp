@@ -57,30 +57,27 @@ QString display_menu(const target_analyser& ta)
 {
     menu menu(ta);
     for(QString line : menu.display()) {
-        qInfo() << line;
+        QTextStream(stdout) << line << "\n";
     }
 
     QString selection;
     while(selection.isEmpty()) {
-        qInfo() << "Enter selection: ";
+        QTextStream(stdin) << "Enter selection: ";
         std::string input;
         std::cin >> input;
         if(input.size() == 1) {
             selection = menu.selection(QChar(input.at(0)));
         }
         if(selection.isEmpty()) {
-            qInfo() << "Invalid selection.";
+            QTextStream(stdout) << "Invalid selection.\n";
         }
     }
-
-    qDebug() << "User selected: " << selection;
     return selection;
 }
 
 int main(int argc, char *argv[])
 {
     qInstallMessageHandler(messageHandler);
-    //qSetMessagePattern("%{file}(%{line}): %{message}");
     QCoreApplication a(argc, argv);
 
     extract_source();
@@ -95,17 +92,24 @@ int main(int argc, char *argv[])
     if(!pc.timestamp_exists()){
         sanitiser::sanitise_environment(ta, type);
         pc.create_timestamp();
-        QThread::msleep(1000);
+        QThread::msleep(1001);
     }
     pc.patch();
 
     QString selection = display_menu(ta);
-    QSharedPointer<executor> executor = executor_factory::new_executor(type);
-    executor->target(selection);
-    executor->working_dir(tpa.working_dir());
-    executor->run();
 
-    pc.diff();
+    QSharedPointer<executor> executor = executor_factory::new_executor(type);
+    if(executor != nullptr){
+        executor->working_dir(tpa.working_dir());
+        executor->target(selection);
+        executor->run();
+
+        pc.diff();
+    }
+    else{
+        qCritical() << "Null executor.";
+    }
+
 
     return 0;
 }

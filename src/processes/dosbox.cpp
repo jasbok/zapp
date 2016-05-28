@@ -15,6 +15,12 @@ dosbox &dosbox::executable ( const QString &executable )
     return *this;
 }
 
+dosbox &dosbox::arg(const QString &arg)
+{
+    _args << arg;
+    return *this;
+}
+
 dosbox &dosbox::mount ( const QChar& drive, const QString& path )
 {
     _args << "-c" << QString ( "mount %1 %2" ).arg ( drive, path );
@@ -42,23 +48,25 @@ dosbox &dosbox::command ( const QString& command )
 dosbox &dosbox::working_dir ( const QString &working_dir )
 {
     _wd = working_dir;
-    qDebug() << "Set working directory: " << working_dir;
     return *this;
 }
 
 bool dosbox::run() const
 {
     QProcess process;
+    QObject::connect(&process, &QProcess::readyReadStandardOutput, [&](){
+        QTextStream(::stdout) << process.readAllStandardOutput();
+    });
+    QObject::connect(&process, &QProcess::readyReadStandardError, [&](){
+        QTextStream(::stderr) << process.readAllStandardError();
+    });
 
-    qDebug() << "Using working directory: " << _wd;
     if ( !_wd.isEmpty() ) {
         process.setWorkingDirectory ( _wd );
     }
 
     process.start ( config::instance().dosbox_bin(), _args );
     process.waitForFinished ( -1 );
-    qInfo() << process.readAllStandardOutput();
-    qWarning() << process.readAllStandardError();
     return process.exitCode() == 0;
 }
 

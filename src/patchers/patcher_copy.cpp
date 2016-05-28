@@ -15,9 +15,7 @@ void patcher_copy::diff () const
     QDir(patched()).removeRecursively();
 
     for(QString modified_file : modified_files()){
-        qDebug() << "Modified: " << modified_file;
         QFile original_file(original() + "/" + modified_file);
-
         QString patch_path = patched() + "/" + modified_file;
         QFile patch_file(patch_path);
 
@@ -35,7 +33,6 @@ void patcher_copy::diff () const
 void patcher_copy::patch () const
 {
     for(QString patched_file : patched_files()){
-        qDebug() << "Patched: " << patched_file;
         QString original_path = original() + "/" + patched_file;
         QFile original_file(original_path);
 
@@ -52,8 +49,5 @@ void patcher_copy::patch () const
         if(utimes(original_path.toLocal8Bit(), NULL)){
             qCritical() << "Could not update patch file time.";
         }
-//        if(original_file.open(QFile::WriteOnly | QFile::Append)){
-//            original_file.close();
-//        }
     }
 }

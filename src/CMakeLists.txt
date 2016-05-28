@@ -1,8 +1,10 @@
 # Collect all source files
 list(APPEND SOURCES
   "analysers/dosbox_config_analyser.cpp"
+  "analysers/name_analyser.cpp"
   "analysers/target_analyser.cpp"
   "analysers/type_analyser.cpp"
+
   "configs/config.cpp"
 
   "executors/executor.cpp"

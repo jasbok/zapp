@@ -1,6 +1,7 @@
 #ifndef INNOEXTRACT_H
 #define INNOEXTRACT_H
 
+#include <QProcess>
 #include <QString>
 
 class innoextract

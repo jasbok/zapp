@@ -16,11 +16,9 @@ bool patcher::timestamp_exists () const
 
 void patcher::create_timestamp () const
 {
-    qDebug() << "Writing timestamp...";
     QFile timestamp(_original + "/.timestamp");
     if(!timestamp.exists()){
         if(timestamp.open(QIODevice::WriteOnly)){
-            qDebug() << "Timestamp written...";
             timestamp.close();
         }
         else{

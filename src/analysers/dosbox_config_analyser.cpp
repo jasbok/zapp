@@ -170,7 +170,6 @@ QString dosbox_config_analyser::section::name() const
 void dosbox_config_analyser::_parse()
 {
     QFile file(_path);
-    qDebug() << "Analysing dosbox config (" << _path << ")...";
     if(file.open(QIODevice::ReadOnly | QIODevice::Text)){
         QString line;
         QRegExp section_regex("^\\[.*\\]$");
@@ -191,7 +190,6 @@ void dosbox_config_analyser::_parse()
 
         for(section section : sections){
             if(section.name() == "autoexec"){
-                qDebug() << "-- Found autoexec section...";
                 QRegExp mount_regex("^mount\\s");
                 QRegExp imgmount_regex("^imgmount\\s");
 
@@ -199,17 +197,14 @@ void dosbox_config_analyser::_parse()
                     if(cmd.contains(mount_regex)){
                         _mount_cmd = QSharedPointer<mount>(new mount(cmd));
                         _all_cmds.push_back(_mount_cmd->command());
-                        qDebug() << "mount_cmd = " << _mount_cmd->to_string();
                     }
                     else if(cmd.contains(imgmount_regex)){
                         _imgmount_cmd = QSharedPointer<imgmount>(new imgmount(cmd));
                         _all_cmds.push_back(_imgmount_cmd->command());
-                        qDebug() << "imgmount_cmd = " << _imgmount_cmd->to_string();
                     }
                     else{
                         _dos_cmds.push_back(cmd);
                         _all_cmds.push_back(cmd);
-                        qDebug() << "dos_commands += " << cmd;
                     }
                 }
             }

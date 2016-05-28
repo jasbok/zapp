@@ -53,14 +53,10 @@ type_analyser::target_type type_analyser::_analyse_type(const target_analyser& t
     target_type result = target_type::UNKNOWN;
     QMap<target_type, int> type_refs;
 
-    qDebug() << "Analysing executable paths...";
     for(QString path : ta.executables()) {
-        qDebug() << "-- " << path;
         _sum_refs(type_refs, _analyse_file_path(path));
     }
-    qDebug() << "Analysing configuration file contents...";
     for(QString path : ta.configs()) {
-        qDebug() << "-- " << path;
         _sum_refs(type_refs, _analyse_file_path(path));
         _sum_refs(type_refs, _analyse_file_contents(path));
     }
@@ -69,14 +65,12 @@ type_analyser::target_type type_analyser::_analyse_type(const target_analyser& t
     QMapIterator<target_type, int> it(type_refs);
     while(it.hasNext()) {
         it.next();
-        qDebug() << target_type_string(it.key()) << " refs = " << it.value();
         if(it.value() > high) {
             high = it.value();
             result = it.key();
         }
     }
 
-    qDebug() << "Final result: " << target_type_string(result);
     return result;
 }
 

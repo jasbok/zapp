@@ -5,16 +5,12 @@
 
 config::config()
     : _container("/tmp/zapp/container"),
-      _user("/tmp/zapp/user"),
+      _user("~/.zapp/user"),
       _innoextract_bin("innoextract"),
       _dosbox_bin("dosbox")
 {
     _parse_args();
     _calculate_paths();
-
-    qInfo() << "Source: " << _source;
-    qInfo() << "Container: " << _container;
-    qInfo() << "Target: " << _target;
 }
 
 QString config::source() const

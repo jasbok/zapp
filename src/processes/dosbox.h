@@ -13,6 +13,7 @@ public:
     dosbox();
 
     dosbox& executable(const QString& executable);
+    dosbox& arg(const QString& arg);
     dosbox& mount(const QChar& drive, const QString& path);
     dosbox& imgmount(const QChar& drive, const QString& path);
     dosbox& imgmount(const QChar& drive, const QString& path, const QString& t, const QString& fs);
