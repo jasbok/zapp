@@ -9,4 +9,9 @@ bool extractor_librar::extract(const QString &destination) const
     return _librar.extract(destination);
 }
 
+QStringList extractor_librar::list() const
+{
+    return QStringList();
+}
+
 

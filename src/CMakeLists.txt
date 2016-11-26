@@ -2,6 +2,7 @@
 list(APPEND SOURCES
   "analysers/dosbox_config_analyser.cpp"
   "analysers/name_analyser.cpp"
+  "analysers/scummvm_config_analyser.cpp"
   "analysers/target_analyser.cpp"
   "analysers/type_analyser.cpp"
 

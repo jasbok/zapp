@@ -49,6 +49,10 @@ void extract_source()
         QSharedPointer<extractor> extractor = extractor_factory::new_extractor(config.source());
         extractor->extract(config.target());
     } else {
+        QSharedPointer<extractor> extractor = extractor_factory::new_extractor(config.source());
+        for(QString file : extractor->list()){
+            qDebug() << file;
+        }
         qInfo() << "Target exists, no extraction required.";
     }
 }
@@ -102,14 +106,16 @@ int main(int argc, char *argv[])
     if(executor != nullptr){
         executor->working_dir(tpa.working_dir());
         executor->target(selection);
-        executor->run();
+
+        if(executor->run()){
+            qWarning() << "Executor finished with an error state.";
+        }
 
         pc.diff();
     }
     else{
         qCritical() << "Null executor.";
     }
-
 
     return 0;
 }

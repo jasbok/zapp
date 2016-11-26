@@ -8,7 +8,8 @@ class extractor_librar : public extractor
 {
 public:
     extractor_librar(const QString& file);
-    bool extract(const QString& destination) const;
+    virtual bool extract(const QString& destination) const;
+    virtual QStringList list() const;
 
 private:
     librar _librar;

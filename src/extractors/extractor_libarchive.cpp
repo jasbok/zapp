@@ -8,3 +8,8 @@ bool extractor_libarchive::extract(const QString &destination) const
 {
     return _libarchive.extract(destination);
 }
+
+QStringList extractor_libarchive::list() const
+{
+    return QStringList();
+}

@@ -8,3 +8,8 @@ bool extractor_innoextract::extract(const QString& destination) const
 {
     return _innoextract.extract(destination);
 }
+
+QStringList extractor_innoextract::list() const
+{
+    return _innoextract.list();
+}

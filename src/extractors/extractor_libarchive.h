@@ -3,14 +3,13 @@
 
 #include "extractor.h"
 #include "libs/libarchive.h"
-#include <QString>
 
 class extractor_libarchive : public extractor
 {
 public:
     extractor_libarchive(const QString& file);
     virtual bool extract(const QString& destination) const;
-
+    virtual QStringList list() const;
 private:
     libarchive _libarchive;
 };

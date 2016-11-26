@@ -10,6 +10,7 @@ class extractor_innoextract : public extractor
 public:
     extractor_innoextract(const QString& file);
     virtual bool extract(const QString& destination) const;
+    virtual QStringList list() const;
 
 private:
     innoextract _innoextract;

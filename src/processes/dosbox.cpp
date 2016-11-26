@@ -55,18 +55,24 @@ bool dosbox::run() const
 {
     QProcess process;
     QObject::connect(&process, &QProcess::readyReadStandardOutput, [&](){
-        QTextStream(::stdout) << process.readAllStandardOutput();
+        QTextStream(stdout) << process.readAllStandardOutput();
     });
     QObject::connect(&process, &QProcess::readyReadStandardError, [&](){
-        QTextStream(::stderr) << process.readAllStandardError();
+        QTextStream(stdout) << process.readAllStandardError();
     });
 
     if ( !_wd.isEmpty() ) {
         process.setWorkingDirectory ( _wd );
     }
 
+    QTextStream(stdout) << "Starting dosbox... (" << config::instance().dosbox_bin() << ")\n";
+    QTextStream(stdout) << "Working Directory: " << _wd << "\n";
     process.start ( config::instance().dosbox_bin(), _args );
     process.waitForFinished ( -1 );
+
+    QTextStream(stdout) << "Process Exit Code... (" << process.exitCode() << ")\n";
+    QTextStream(stdout) << process.readAllStandardError();
+
     return process.exitCode() == 0;
 }
 

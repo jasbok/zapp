@@ -40,8 +40,9 @@ void type_analyser::_process(const target_analyser& ta)
     }
 
     for(QString exec : ta.executables()){
-        QFileInfo exec_info = QFileInfo(exec.toLower());
-        if(exec_info.fileName() == "start.sh" || exec_info.fileName() == win_exec){
+        QFileInfo exec_info = QFileInfo(exec);
+        QString fileName = exec_info.fileName().toLower();
+        if(fileName == "start.sh" || fileName == win_exec){
             _working_dir = exec_info.absolutePath();
             break;
         }

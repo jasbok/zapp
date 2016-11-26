@@ -44,6 +44,8 @@ void executor_dosbox::_configure_for_executable(const QString& target, const QFi
 
 void executor_dosbox::_configure_for_config(const QString& target)
 {
-    dosbox_config_analyser dca(target);
-    _dosbox = _dosbox.arg("-userconf").arg("-conf").arg(target);
+    _dosbox = _dosbox
+            .arg("-userconf")
+            .arg("-conf")
+            .arg(target);
 }

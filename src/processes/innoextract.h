@@ -9,7 +9,7 @@ class innoextract
 public:
     innoextract(const QString& target);
     bool extract(const QString& destination) const;
-
+    QStringList list() const;
 private:
     QString _target;
 };
