@@ -43,7 +43,7 @@ bool libarchive::extract ( const QString& dest ) const
 
         aw.status = archive_read_next_header ( aw.archive, &aw.current_entry );
         while ( aw.status == ARCHIVE_OK ) {
-            QString entry_path = destination + archive_entry_pathname ( aw.current_entry );
+            QString entry_path = destination + QString(archive_entry_pathname ( aw.current_entry )).toLower();
             archive_entry_set_pathname ( aw.current_entry, entry_path.toLocal8Bit().data() );
             aw.status = archive_read_extract ( aw.archive, aw.current_entry, 0 );
 

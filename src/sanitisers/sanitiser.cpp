@@ -91,6 +91,6 @@ void sanitiser::sanitise_config(const QString &path)
         }
     }
     else{
-        qWarning() << "Could not open file for lowercasing operation: " << path;
+        qWarning() << "Could not open file for sanitation operation: " << path;
     }
 }

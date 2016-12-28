@@ -19,7 +19,7 @@ bool innoextract::extract(const QString& destination) const
         QTextStream(::stderr) << process.readAllStandardError();
     });
 
-    process.start(config::instance().innoextract_bin(), QStringList() << "-em" << "-L" << "-d" << destination << _target);
+    process.start(config::instance().innoextract_bin(), QStringList() << "-emL" << "-d" << destination << _target);
     process.waitForFinished(-1);
     return process.exitCode() == 0;
 }
@@ -37,7 +37,7 @@ QStringList innoextract::list() const
         QTextStream(::stderr) << process.readAllStandardError();
     });
 
-    process.start(config::instance().innoextract_bin(), QStringList() << "-lm" << _target);
+    process.start(config::instance().innoextract_bin(), QStringList() << "-lmL" << _target);
     process.waitForFinished(-1);
 
     if(process.exitCode() == 0){
