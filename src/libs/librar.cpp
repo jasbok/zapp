@@ -13,7 +13,7 @@ bool librar::extract ( const QString& dest ) const
 {
     unrar unrar(_path, RAR_OM_EXTRACT);
 
-    if ( unrar.archive != NULL ) {
+    if ( unrar.archive != nullptr ) {
         unrar.status = RARReadHeader ( unrar.archive, &unrar.current_header );
         while ( unrar.status != ERAR_END_ARCHIVE ) {
             if ( unrar.status == ERAR_BAD_ARCHIVE ) {
@@ -37,7 +37,7 @@ bool librar::list ( QStringList& in ) const
 {
     unrar unrar(_path, RAR_OM_LIST);
 
-    if ( unrar.archive != NULL ) {
+    if ( unrar.archive != nullptr ) {
         unrar.status = RARReadHeader ( unrar.archive, &unrar.current_header );
         while ( unrar.status != ERAR_END_ARCHIVE ) {
             if ( unrar.status == ERAR_BAD_ARCHIVE ) {

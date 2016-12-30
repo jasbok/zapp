@@ -20,7 +20,10 @@ private:
 
 struct unrar {
         unrar ( const QString& path, int open_mode ) {
-                archive_data.ArcName = ( char* ) path.toLocal8Bit().data();
+                // Extra string copy needed, since valgrind shows issues
+                // with unrar and the QString char* representation.
+                std::string str = path.toLocal8Bit().toStdString();
+                archive_data.ArcName = (char*) str.c_str();
                 archive_data.OpenMode = open_mode;
                 archive = RAROpenArchive ( &archive_data );
         }

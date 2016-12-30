@@ -107,7 +107,7 @@ int main(int argc, char *argv[])
         executor->working_dir(tpa.working_dir());
         executor->target(selection);
 
-        if(executor->run()){
+        if(!executor->run()){
             qWarning() << "Executor finished with an error state.";
         }
 
