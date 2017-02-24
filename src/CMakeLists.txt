@@ -14,12 +14,10 @@ list(APPEND SOURCES
 
   "extractors/extractor.cpp"
   "extractors/extractor_innoextract.cpp"
-  "extractors/extractor_librar.cpp"
   "extractors/extractor_libarchive.cpp"
   "extractors/extractor_factory.cpp"
 
   "libs/libarchive.cpp"
-  "libs/librar.cpp"
 
   "menus/menu.cpp"
 
@@ -33,5 +31,14 @@ list(APPEND SOURCES
   "sanitisers/dosbox_sanitiser.cpp"
 )
 
+if (${LIBUNRAR_FOUND})
+    list(APPEND SOURCES
+        "extractors/extractor_librar.cpp"
+        "libs/librar.cpp"
+    )
+endif (${LIBUNRAR_FOUND})
+
 add_executable(zapp "main.cpp" ${SOURCES})
 target_link_libraries(zapp ${TARGET_LINK_LIBS})
+
+install(TARGETS zapp DESTINATION bin)

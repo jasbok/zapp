@@ -1,7 +1,10 @@
 #include "extractor_factory.h"
 #include "extractor_innoextract.h"
-#include "extractor_librar.h"
 #include "extractor_libarchive.h"
+
+#ifdef USE_LIBRAR
+#include "extractor_librar.h"
+#endif
 
 #include <QFileInfo>
 
@@ -17,9 +20,13 @@ QSharedPointer<extractor> extractor_factory::new_extractor(const QString &target
     else if(suffix == "exe"){
         extr = QSharedPointer<extractor>(new extractor_innoextract(target));
     }
+
+#ifdef USE_LIBRAR
     else if(suffix == "rar"){
         extr = QSharedPointer<extractor>(new extractor_librar(target));
     }
+#endif
+
     else{
         extr = QSharedPointer<extractor>(new extractor_libarchive(target));
     }
